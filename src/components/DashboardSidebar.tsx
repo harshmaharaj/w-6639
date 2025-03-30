@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Bug, Map, FileText, LogOut, Menu } from "lucide-react";
+import { User, Bug, Map, FileText, LogOut, ChevronRight } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -47,7 +47,7 @@ export const DashboardSidebar = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { logout, user } = useAuth();
-  const { state } = useSidebar();
+  const { state, setOpen } = useSidebar();
   
   const handleMenuClick = (path: string) => {
     navigate(path);
@@ -62,8 +62,12 @@ export const DashboardSidebar = () => {
     navigate("/login");
   };
 
+  const handleExpand = () => {
+    setOpen(true);
+  };
+
   return (
-    <Sidebar className="border-r border-gray-200">
+    <Sidebar className="border-r border-gray-200 group">
       <SidebarHeader className="flex items-center justify-between p-4">
         <h2 className={`text-xl font-bold text-purple-900 ${state === "collapsed" ? "hidden" : ""}`}>Trekies</h2>
         <SidebarTrigger />
@@ -80,7 +84,7 @@ export const DashboardSidebar = () => {
                     tooltip={item.title}
                   >
                     <item.icon className="mr-2" />
-                    <span>{item.title}</span>
+                    {state !== "collapsed" && <span>{item.title}</span>}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -89,13 +93,21 @@ export const DashboardSidebar = () => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="p-4">
+        <div className="p-4 relative">
           {user && state !== "collapsed" && (
             <div className="mb-4 text-sm text-sidebar-foreground">
               <p className="font-medium">Logged in as:</p>
               <p>{user.name}</p>
               <p className="text-xs text-sidebar-foreground/70">{user.email}</p>
             </div>
+          )}
+          {state === "collapsed" && (
+            <button 
+              onClick={handleExpand} 
+              className="absolute top-0 left-0 w-full h-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+            >
+              <ChevronRight className="text-purple-900" />
+            </button>
           )}
           <SidebarMenuButton 
             onClick={handleLogout} 
