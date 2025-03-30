@@ -15,6 +15,16 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 // Mock data for the user listing
 const initialUsers = [
@@ -102,7 +112,19 @@ const UserManagement = () => {
   const navigate = useNavigate();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState<(typeof initialUsers)[0] | null>(null);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [userToToggle, setUserToToggle] = useState<{ id: number, status: boolean } | null>(null);
   
+  const handleStatusToggleRequest = (id: number, newStatus: boolean) => {
+    if (newStatus === true) {
+      handleStatusChange(id, true);
+      return;
+    }
+    
+    setUserToToggle({ id, status: newStatus });
+    setIsConfirmDialogOpen(true);
+  };
+
   const handleStatusChange = (id: number, checked: boolean) => {
     setUsers(users.map(user => user.id === id ? {
       ...user,
@@ -113,6 +135,19 @@ const UserManagement = () => {
       description: `User has been ${checked ? 'activated' : 'deactivated'}.`,
       duration: 3000
     });
+  };
+
+  const confirmStatusChange = () => {
+    if (userToToggle) {
+      handleStatusChange(userToToggle.id, userToToggle.status);
+    }
+    setIsConfirmDialogOpen(false);
+    setUserToToggle(null);
+  };
+
+  const cancelStatusChange = () => {
+    setIsConfirmDialogOpen(false);
+    setUserToToggle(null);
   };
 
   const handleAdminClick = (id: number) => {
@@ -182,7 +217,11 @@ const UserManagement = () => {
                 </TableCell>
                 <TableCell className="text-center">
                   <div className="flex justify-center">
-                    <Switch checked={user.active} onCheckedChange={checked => handleStatusChange(user.id, checked)} className={user.active ? "bg-green-500" : "bg-gray-300"} />
+                    <Switch 
+                      checked={user.active} 
+                      onCheckedChange={checked => handleStatusToggleRequest(user.id, checked)} 
+                      className={user.active ? "bg-green-500" : "bg-gray-300"} 
+                    />
                   </div>
                 </TableCell>
                 <TableCell className="text-center">
@@ -206,7 +245,23 @@ const UserManagement = () => {
         </Table>
       </div>
 
-      {/* Admin Details Sheet */}
+      <AlertDialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Deactivate User</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to deactivate this user? They will lose access to their account until reactivated.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={cancelStatusChange}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmStatusChange} className="bg-red-500 hover:bg-red-600">
+              Deactivate
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetContent className="w-[500px] overflow-y-auto">
           <SheetHeader>
@@ -218,7 +273,6 @@ const UserManagement = () => {
           
           {selectedAdmin && (
             <div className="space-y-6 mt-4">
-              {/* Admin Information */}
               <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
                 <h3 className="text-lg font-semibold border-b pb-2">Personal Information</h3>
                 <div className="grid grid-cols-2 gap-2">
@@ -243,7 +297,6 @@ const UserManagement = () => {
                 </div>
               </div>
               
-              {/* Created Tours */}
               <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
                 <h3 className="text-lg font-semibold border-b pb-2">Created Tours</h3>
                 {adminTours[selectedAdmin.id]?.length > 0 ? (
