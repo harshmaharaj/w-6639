@@ -1,9 +1,10 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Bug, Map, FileText, LogOut } from "lucide-react";
+import { User, Bug, Map, FileText, LogOut, ChevronRight, ChevronLeft } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSidebar } from "@/components/ui/sidebar";
 
 import {
   Sidebar,
@@ -16,6 +17,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
@@ -45,6 +48,7 @@ export const DashboardSidebar = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { logout, user } = useAuth();
+  const { state, toggleSidebar } = useSidebar();
 
   const handleMenuClick = (path: string) => {
     navigate(path);
@@ -60,9 +64,13 @@ export const DashboardSidebar = () => {
   };
 
   return (
-    <Sidebar className="border-r border-gray-200">
+    <Sidebar collapsible="icon">
       <SidebarHeader className="flex items-center justify-center p-4">
-        <h2 className="text-xl font-bold text-purple-900">Dashboard</h2>
+        {state === "expanded" ? (
+          <h2 className="text-xl font-bold text-purple-900">Trekies</h2>
+        ) : (
+          <SidebarTrigger />
+        )}
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -76,7 +84,7 @@ export const DashboardSidebar = () => {
                     tooltip={item.title}
                   >
                     <item.icon className="mr-2" />
-                    <span>{item.title}</span>
+                    {state === "expanded" && <span>{item.title}</span>}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -86,7 +94,7 @@ export const DashboardSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <div className="p-4">
-          {user && (
+          {state === "expanded" && user && (
             <div className="mb-4 text-sm text-sidebar-foreground">
               <p className="font-medium">Logged in as:</p>
               <p>{user.name}</p>
@@ -99,12 +107,14 @@ export const DashboardSidebar = () => {
             variant="outline"
           >
             <LogOut size={16} />
-            <span>Logout</span>
+            {state === "expanded" && <span>Logout</span>}
           </SidebarMenuButton>
         </div>
       </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 };
 
 export default DashboardSidebar;
+
