@@ -7,14 +7,14 @@ import { User, Phone, Users, Eye, MapPin } from "lucide-react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 // Mock data for the user listing
 const initialUsers = [
@@ -100,7 +100,7 @@ const UserManagement = () => {
   const [users, setUsers] = useState(initialUsers);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState<(typeof initialUsers)[0] | null>(null);
   
   const handleStatusChange = (id: number, checked: boolean) => {
@@ -121,7 +121,7 @@ const UserManagement = () => {
 
   const handleViewDetails = (admin: (typeof initialUsers)[0]) => {
     setSelectedAdmin(admin);
-    setIsDrawerOpen(true);
+    setIsSheetOpen(true);
   };
 
   return <div className="space-y-4">
@@ -206,20 +206,20 @@ const UserManagement = () => {
         </Table>
       </div>
 
-      {/* Admin Details Drawer */}
-      <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <DrawerContent className="px-4 sm:max-w-md">
-          <DrawerHeader>
-            <DrawerTitle className="text-xl font-bold">Admin Details</DrawerTitle>
-            <DrawerDescription>
+      {/* Admin Details Sheet */}
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+        <SheetContent className="w-[500px] overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle className="text-xl font-bold">Admin Details</SheetTitle>
+            <SheetDescription>
               {selectedAdmin?.name}'s information and created tours
-            </DrawerDescription>
-          </DrawerHeader>
+            </SheetDescription>
+          </SheetHeader>
           
           {selectedAdmin && (
-            <div className="px-4 py-2 space-y-6">
+            <div className="space-y-6 mt-4">
               {/* Admin Information */}
-              <div className="space-y-4">
+              <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
                 <h3 className="text-lg font-semibold border-b pb-2">Personal Information</h3>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="text-sm text-muted-foreground">Name:</div>
@@ -244,12 +244,12 @@ const UserManagement = () => {
               </div>
               
               {/* Created Tours */}
-              <div className="space-y-4">
+              <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
                 <h3 className="text-lg font-semibold border-b pb-2">Created Tours</h3>
                 {adminTours[selectedAdmin.id]?.length > 0 ? (
                   <div className="space-y-3">
                     {adminTours[selectedAdmin.id].map(tour => (
-                      <div key={tour.id} className="bg-gray-50 p-3 rounded-md">
+                      <div key={tour.id} className="bg-white border p-3 rounded-md shadow-sm">
                         <div className="flex items-center gap-2 font-medium">
                           <MapPin className="h-4 w-4 text-blue-500" />
                           {tour.name}
@@ -262,19 +262,19 @@ const UserManagement = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-sm text-gray-500 italic">No tours created yet</div>
+                  <div className="text-sm text-gray-500 italic text-center py-4">No tours created yet</div>
                 )}
               </div>
             </div>
           )}
           
-          <DrawerFooter>
-            <DrawerClose asChild>
+          <SheetFooter className="mt-4">
+            <SheetClose asChild>
               <Button variant="outline">Close</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </div>;
 };
 
