@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 interface User {
@@ -32,16 +31,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (email: string, password: string) => {
-    // In a real application, you would validate credentials with an API
-    // This is a mock implementation for demonstration
-    const mockUser = {
-      id: "user-123",
-      name: "Demo User",
-      email: email,
-    };
-    
-    setUser(mockUser);
-    localStorage.setItem("user", JSON.stringify(mockUser));
+    // Hardcoded login credentials
+    if (email === "test@gmail.com" && password === "12345") {
+      const mockUser = {
+        id: "user-123",
+        name: "Test User",
+        email: email,
+      };
+      
+      setUser(mockUser);
+      localStorage.setItem("user", JSON.stringify(mockUser));
+    } else {
+      throw new Error("Invalid credentials");
+    }
   };
 
   const register = async (name: string, email: string, password: string) => {
