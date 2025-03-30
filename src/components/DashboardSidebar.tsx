@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Bug, Map, FileText, LogOut } from "lucide-react";
@@ -59,7 +60,7 @@ export const DashboardSidebar = () => {
   };
 
   return (
-    <Sidebar>
+    <Sidebar className="border-r border-gray-200">
       <SidebarHeader className="flex items-center justify-center p-4">
         <h2 className="text-xl font-bold text-purple-900">Dashboard</h2>
       </SidebarHeader>

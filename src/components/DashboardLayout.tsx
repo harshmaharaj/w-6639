@@ -28,8 +28,8 @@ const DashboardLayout = () => {
       <div className="min-h-screen flex w-full bg-gray-50">
         <DashboardSidebar />
         
-        <main className="flex-1 overflow-auto">
-          <div className="max-w-7xl mx-auto p-6">
+        <main className="flex-1 p-6 overflow-auto">
+          <div className="max-w-7xl mx-auto">
             <Outlet />
           </div>
         </main>
