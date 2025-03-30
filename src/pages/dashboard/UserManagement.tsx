@@ -1,111 +1,85 @@
-
 import React, { useState } from "react";
-import { 
-  Table, 
-  TableBody, 
-  TableCaption, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
 import { User, Phone, Users, Home } from "lucide-react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
 
 // Mock data for the user listing
-const initialUsers = [
-  {
-    id: 1,
-    name: "John Smith",
-    email: "john.smith@example.com",
-    mobile: "+1 (555) 123-4567",
-    coordinators: 5,
-    active: true,
-  },
-  {
-    id: 2,
-    name: "Sarah Johnson",
-    email: "sarah.j@example.com",
-    mobile: "+1 (555) 234-5678",
-    coordinators: 3,
-    active: true,
-  },
-  {
-    id: 3,
-    name: "Michael Brown",
-    email: "m.brown@example.com",
-    mobile: "+1 (555) 345-6789",
-    coordinators: 2,
-    active: false,
-  },
-  {
-    id: 4,
-    name: "Emily Davis",
-    email: "emily.davis@example.com",
-    mobile: "+1 (555) 456-7890",
-    coordinators: 7,
-    active: true,
-  },
-  {
-    id: 5,
-    name: "David Wilson",
-    email: "david.w@example.com",
-    mobile: "+1 (555) 567-8901",
-    coordinators: 1,
-    active: false,
-  },
-  {
-    id: 6,
-    name: "Jennifer Lee",
-    email: "jennifer.lee@example.com",
-    mobile: "+1 (555) 678-9012",
-    coordinators: 4,
-    active: true,
-  },
-  {
-    id: 7,
-    name: "Robert Taylor",
-    email: "robert.t@example.com",
-    mobile: "+1 (555) 789-0123",
-    coordinators: 0,
-    active: false,
-  },
-];
-
+const initialUsers = [{
+  id: 1,
+  name: "John Smith",
+  email: "john.smith@example.com",
+  mobile: "+1 (555) 123-4567",
+  coordinators: 5,
+  active: true
+}, {
+  id: 2,
+  name: "Sarah Johnson",
+  email: "sarah.j@example.com",
+  mobile: "+1 (555) 234-5678",
+  coordinators: 3,
+  active: true
+}, {
+  id: 3,
+  name: "Michael Brown",
+  email: "m.brown@example.com",
+  mobile: "+1 (555) 345-6789",
+  coordinators: 2,
+  active: false
+}, {
+  id: 4,
+  name: "Emily Davis",
+  email: "emily.davis@example.com",
+  mobile: "+1 (555) 456-7890",
+  coordinators: 7,
+  active: true
+}, {
+  id: 5,
+  name: "David Wilson",
+  email: "david.w@example.com",
+  mobile: "+1 (555) 567-8901",
+  coordinators: 1,
+  active: false
+}, {
+  id: 6,
+  name: "Jennifer Lee",
+  email: "jennifer.lee@example.com",
+  mobile: "+1 (555) 678-9012",
+  coordinators: 4,
+  active: true
+}, {
+  id: 7,
+  name: "Robert Taylor",
+  email: "robert.t@example.com",
+  mobile: "+1 (555) 789-0123",
+  coordinators: 0,
+  active: false
+}];
 const UserManagement = () => {
   const [users, setUsers] = useState(initialUsers);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const handleStatusChange = (id: number, checked: boolean) => {
-    setUsers(users.map(user => 
-      user.id === id ? { ...user, active: checked } : user
-    ));
-    
+    setUsers(users.map(user => user.id === id ? {
+      ...user,
+      active: checked
+    } : user));
     toast({
       title: `User status updated`,
       description: `User has been ${checked ? 'activated' : 'deactivated'}.`,
-      duration: 3000,
+      duration: 3000
     });
   };
-
-  return (
-    <div className="space-y-4">
+  return <div className="space-y-4">
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
               <Link to="/dashboard">
-                <Home className="h-4 w-4 mr-1" />
+                
                 Dashboard
               </Link>
             </BreadcrumbLink>
@@ -134,8 +108,7 @@ const UserManagement = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
+            {users.map(user => <TableRow key={user.id}>
                 <TableCell className="font-medium flex items-center gap-2">
                   <User className="h-4 w-4 text-gray-500" />
                   {user.name}
@@ -155,20 +128,13 @@ const UserManagement = () => {
                 </TableCell>
                 <TableCell className="text-center">
                   <div className="flex justify-center">
-                    <Switch 
-                      checked={user.active}
-                      onCheckedChange={(checked) => handleStatusChange(user.id, checked)}
-                      className={user.active ? "bg-green-500" : "bg-gray-300"}
-                    />
+                    <Switch checked={user.active} onCheckedChange={checked => handleStatusChange(user.id, checked)} className={user.active ? "bg-green-500" : "bg-gray-300"} />
                   </div>
                 </TableCell>
-              </TableRow>
-            ))}
+              </TableRow>)}
           </TableBody>
         </Table>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default UserManagement;
