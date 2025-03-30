@@ -11,7 +11,16 @@ import {
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
-import { User, Phone, Users } from "lucide-react";
+import { User, Phone, Users, Home } from "lucide-react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Link } from "react-router-dom";
 
 // Mock data for the user listing
 const initialUsers = [
@@ -91,6 +100,23 @@ const UserManagement = () => {
 
   return (
     <div className="space-y-4">
+      <Breadcrumb className="mb-4">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to="/dashboard">
+                <Home className="h-4 w-4 mr-1" />
+                Dashboard
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>User Management</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold text-gray-800">User Management</h1>
       </div>
