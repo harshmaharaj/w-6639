@@ -1,7 +1,6 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Bug, Map, FileExport, LogOut } from "lucide-react";
+import { User, Bug, Map, FileText, LogOut } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -18,7 +17,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-// Menu items for the main navigation
 const menuItems = [
   {
     title: "User Management",
@@ -37,7 +35,7 @@ const menuItems = [
   },
   {
     title: "Exports",
-    icon: FileExport,
+    icon: FileText,
     path: "/dashboard/exports",
   },
 ];
