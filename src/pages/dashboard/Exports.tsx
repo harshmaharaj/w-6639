@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   Table, 
@@ -10,7 +9,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Home, Calendar, Download } from "lucide-react";
+import { FileText, Calendar, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
@@ -92,7 +91,6 @@ const Exports = () => {
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
               <Link to="/dashboard">
-                <Home className="h-4 w-4 mr-1" />
                 Dashboard
               </Link>
             </BreadcrumbLink>

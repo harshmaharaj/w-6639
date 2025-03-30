@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
-import { User, Phone, Users, Home } from "lucide-react";
+import { User, Phone, Users } from "lucide-react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
 
@@ -57,11 +57,13 @@ const initialUsers = [{
   coordinators: 0,
   active: false
 }];
+
 const UserManagement = () => {
   const [users, setUsers] = useState(initialUsers);
   const {
     toast
   } = useToast();
+  
   const handleStatusChange = (id: number, checked: boolean) => {
     setUsers(users.map(user => user.id === id ? {
       ...user,
@@ -73,13 +75,13 @@ const UserManagement = () => {
       duration: 3000
     });
   };
+
   return <div className="space-y-4">
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
               <Link to="/dashboard">
-                
                 Dashboard
               </Link>
             </BreadcrumbLink>
@@ -137,4 +139,5 @@ const UserManagement = () => {
       </div>
     </div>;
 };
+
 export default UserManagement;
