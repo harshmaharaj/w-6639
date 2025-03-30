@@ -1,10 +1,11 @@
+
 import React, { useState } from "react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
 import { User, Phone, Users } from "lucide-react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Mock data for the user listing
 const initialUsers = [{
@@ -60,9 +61,8 @@ const initialUsers = [{
 
 const UserManagement = () => {
   const [users, setUsers] = useState(initialUsers);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  const navigate = useNavigate();
   
   const handleStatusChange = (id: number, checked: boolean) => {
     setUsers(users.map(user => user.id === id ? {
@@ -74,6 +74,10 @@ const UserManagement = () => {
       description: `User has been ${checked ? 'activated' : 'deactivated'}.`,
       duration: 3000
     });
+  };
+
+  const handleAdminClick = (id: number) => {
+    navigate(`/dashboard/users/${id}`);
   };
 
   return <div className="space-y-4">
@@ -111,7 +115,10 @@ const UserManagement = () => {
           </TableHeader>
           <TableBody>
             {users.map(user => <TableRow key={user.id}>
-                <TableCell className="font-medium flex items-center gap-2">
+                <TableCell 
+                  className="font-medium flex items-center gap-2 cursor-pointer hover:text-blue-600 hover:underline"
+                  onClick={() => handleAdminClick(user.id)}
+                >
                   <User className="h-4 w-4 text-gray-500" />
                   {user.name}
                 </TableCell>
