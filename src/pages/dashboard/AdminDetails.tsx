@@ -115,7 +115,7 @@ const AdminDetails = () => {
               <TableHead className="w-[200px]">Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Phone Number</TableHead>
-              <TableHead className="w-[100px] text-right">Remove</TableHead>
+              <TableHead className="text-right">Remove</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
