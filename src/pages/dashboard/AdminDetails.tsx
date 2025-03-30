@@ -115,35 +115,43 @@ const AdminDetails = () => {
               <TableHead className="w-[200px]">Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Phone Number</TableHead>
-              <TableHead className="text-right">Remove</TableHead>
+              <TableHead className="text-center">Remove</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {coordinators.length > 0 ? (
               coordinators.map(coordinator => (
                 <TableRow key={coordinator.id}>
-                  <TableCell className="font-medium flex items-center gap-2">
-                    <User className="h-4 w-4 text-gray-500" />
-                    {coordinator.name}
+                  <TableCell className="font-medium">
+                    <div className="flex items-center gap-2">
+                      <User className="h-4 w-4 text-gray-500" />
+                      {coordinator.name}
+                    </div>
                   </TableCell>
-                  <TableCell className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-gray-500" />
-                    {coordinator.email}
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Mail className="h-4 w-4 text-gray-500" />
+                      {coordinator.email}
+                    </div>
                   </TableCell>
-                  <TableCell className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-gray-500" />
-                    {coordinator.phone}
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Phone className="h-4 w-4 text-gray-500" />
+                      {coordinator.phone}
+                    </div>
                   </TableCell>
-                  <TableCell className="text-right">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleRemoveCoordinator(coordinator.id)}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      <span className="sr-only">Remove</span>
-                    </Button>
+                  <TableCell className="text-center">
+                    <div className="flex justify-center">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleRemoveCoordinator(coordinator.id)}
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        <span className="sr-only">Remove</span>
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))
