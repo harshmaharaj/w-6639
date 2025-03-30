@@ -24,7 +24,7 @@ const DashboardLayout = () => {
   }
 
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
         <DashboardSidebar />
         
