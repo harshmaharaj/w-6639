@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Bug, Map, FileText, LogOut } from "lucide-react";
+import { User, Bug, Map, FileText, LogOut, Menu } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -16,6 +16,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
@@ -45,7 +47,8 @@ export const DashboardSidebar = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { logout, user } = useAuth();
-
+  const { state } = useSidebar();
+  
   const handleMenuClick = (path: string) => {
     navigate(path);
   };
@@ -61,8 +64,9 @@ export const DashboardSidebar = () => {
 
   return (
     <Sidebar className="border-r border-gray-200">
-      <SidebarHeader className="flex items-center justify-center p-4">
-        <h2 className="text-xl font-bold text-purple-900">Dashboard</h2>
+      <SidebarHeader className="flex items-center justify-between p-4">
+        <h2 className={`text-xl font-bold text-purple-900 ${state === "collapsed" ? "hidden" : ""}`}>Trekies</h2>
+        <SidebarTrigger />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -86,7 +90,7 @@ export const DashboardSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <div className="p-4">
-          {user && (
+          {user && state !== "collapsed" && (
             <div className="mb-4 text-sm text-sidebar-foreground">
               <p className="font-medium">Logged in as:</p>
               <p>{user.name}</p>
@@ -95,11 +99,12 @@ export const DashboardSidebar = () => {
           )}
           <SidebarMenuButton 
             onClick={handleLogout} 
-            className="w-full justify-start"
+            className={`${state === "collapsed" ? "w-full justify-center" : "w-full justify-start"}`}
             variant="outline"
+            tooltip="Logout"
           >
             <LogOut size={16} />
-            <span>Logout</span>
+            {state !== "collapsed" && <span>Logout</span>}
           </SidebarMenuButton>
         </div>
       </SidebarFooter>
